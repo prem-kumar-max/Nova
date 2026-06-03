@@ -1,7 +1,9 @@
+
 export const Login=()=>{
+ 
     return(
         <>
-    <div className="container mt-2">
+    <div className="container mt-2 mb-10">
       <div className="row justify-content-center">
         <div className="col-md-6">
           <div className="card shadow">
@@ -37,9 +39,6 @@ export const Login=()=>{
                   </button>
                 </div>
               </form>
-              <p className="text-center mt-3">
-                Don’t have an account? <a href="/signup">Sign Up</a>
-              </p>
             </div>
           </div>
         </div>
