@@ -1,91 +1,102 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
-export const Signup=()=>{
+export const Signup = () => {
 
-  let [name,setName]=useState("")
-  let [password,setPassword]=useState("")
-  let [email,setEmail]=useState("")
-  let [mobile,setMobile]=useState("")
+const navigate = useNavigate()
 
-  let [nameError,setNameError]=useState("")
-  let [passwordError,setPasswordError]=useState("")
-  let [emailError,setemailError]=useState("")
-  let [mobileError,setMobileError]=useState("")
- 
-  function handleSubmit(e){
-     e.preventDefault()
-    let isvalid=true
-    if(name.length<=0){
-      setNameError("Please Enter the valid username")
-      isvalid=false
-    }
-    else{
-      setNameError("")
-    }
-    if(password.length<=0){
-      setPasswordError('Please Enter the valid password')
-      isvalid=false
-    }
-    else{
-      setPasswordError('')
-    }
-    if(email.length<=0){
-      setemailError('please enter the valid username')
-      isvalid=false
-    }
-    else{
-      setemailError('')
-    }
-    if(mobile.length<=0){
-      setMobileError('Please enter valid number')
-      isvalid=false
-    }
-    else{
-      setMobileError('')
-    }
-    if(isvalid){
-      alert('Form data submitted successfully')
-    }
+  let [formData,setFormData]=useState({
+    name:"",
+    password:"",
+    email:"",
+    mobile:""
+  })
+let [errors,setErrors]=useState({
+  nameError:"",
+  passwordError:"",
+  emailError:"",
+  mobileError:""
+})
+function handleChange(e){
+  let {name,value}=e.target
+  setFormData(prev=>({...prev,[name]:value}))
+}
+let namePattern=/^[A-Z][a-z]{7,}$/;
+// /^[A-Z][a-z][7,]$/
+let passwordPattern=/^[A-Z][a-z]{7,}$/;
+let emailPattern=/^[A-Z][a-z]{7,}$/;
+let mobilePattern=/^[A-Z][a-z]{7,}$/;
+
+function handleSubmit(e){
+  e.preventDefault()
+  let isvalid=true
+  
+  let newErrors={
+    nameError:"",
+    passwordError:"",
+    emailError:"",
+    mobileError:""
   }
-  return(
+  let{name,password,email,mobile}=formData
+
+  if(!namePattern.test(name)){
+    newErrors.nameError="Please Enter valid username"
+    isvalid=false
+  }
+  if(!passwordPattern.test(password)){
+    newErrors.passwordError="Please Enter valid username"
+    isvalid=false
+  }
+  if(!emailPattern.test(email)){
+    newErrors.emailError="Please Enter valid username"
+    isvalid=false
+  }
+  if(!mobilePattern.test(mobile)){
+    newErrors.mobileError="Please Enter valid username"
+    isvalid=false
+  }
+  setErrors(newErrors)
+
+  if(isvalid){
+    alert("Successfully Submitted")
+    navigate("/home")
+  }
+
+}
+
+
+  return (
     <>
-    <div className="container mt-3 ">
+      <div className="container mt-3 ">
         <div className="row">
           <h1 className="mb-3">Signup</h1>
           <form action="">
             <div className="col-7">
               <label htmlFor="">Username</label>
-              <input type="text" className="form-control" id="" onChange={(e)=>setName(e.target.value)}/>
-              <p className="text-danger">{nameError}</p>
-              </div>
-              <div className="col-7">
+              <input type="text" className="form-control" id="" name="name" value={formData.name} onChange={handleChange}/>
+              <p className="text-danger">{errors.nameError}</p>
+            </div>
+            <div className="col-7">
               <label htmlFor="">Password</label>
-              <input type="text" className="form-control" id="" onChange={(e)=>setPassword(e.target.value)}/>
-              <p className="text-danger">{passwordError}</p>
-              </div>
-              <div className="col-7">
+              <input type="text" className="form-control" id="" name="password" value={formData.password} onChange={handleChange}/>
+              <p className="text-danger">{errors.passwordError}</p>
+            </div>
+            <div className="col-7">
               <label htmlFor="">Email</label>
-              <input type="text" className="form-control" id="" onChange={(e)=>setEmail(e.target.value)}/>
-              <p className="text-danger">{emailError}</p>
-              </div>
-              <div className="col-7">
+              <input type="text" className="form-control" id="" name="email" value={formData.email} onChange={handleChange}/>
+              <p className="text-danger">{errors.emailError}</p>
+            </div>
+            <div className="col-7">
               <label htmlFor="">Mobile</label>
-              <input type="text" className="form-control" id="" onChange={(e)=>setMobile(e.target.value)} />
-              <p className="text-danger">{mobileError}</p>
-              </div>
-              <button className="btn btn-success mt-3" onClick={handleSubmit }>Submit</button>
+              <input type="text" className="form-control" id="" name="mobile" value={formData.mobile} onChange={handleChange}/>
+              <p className="text-danger">{errors.mobileError}</p>
+            </div>
+            <button className="btn btn-success mt-3" onClick={handleSubmit}>Submit</button>
           </form>
 
         </div>
 
-    </div>
-    <div className="card w-50 border-primary border border-4 p-5 m-5">
-      <h4>Username:{name}</h4>
-      <h4>Password:{password}</h4>
-      <h4>Email:{email}</h4>
-      <h4>Mobile:{mobile}</h4>
-
-    </div>
+      </div>
     </>
   )
 }

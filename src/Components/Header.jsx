@@ -12,7 +12,7 @@ export const Header = () => {
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <Link className="nav-link text-light " aria-current="page" to={"/"}>Home</Link>
+                                <Link className="nav-link text-light " aria-current="page" to={"/home"}>Home</Link>
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link text-light" to={"/about"}>About</Link>
@@ -24,7 +24,7 @@ export const Header = () => {
                                 <Link className="nav-link text-light" to={"/cart"}>Cart</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link text-light" to={"/contact"}>Contact</Link>
+                                <Link className="nav-link text-light" to={"/"}>Contact</Link>
                             </li>
                         </ul>
                     </div>

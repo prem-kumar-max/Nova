@@ -1,12 +1,16 @@
 import { Footer } from "../Components/Footer"
 import { Header } from "../Components/Header"
 import { AppRouter } from "../RouterDom/AppRouter"
+import { useLocation } from "react-router-dom"
 export const MainLayout=()=>{
+     let location=useLocation()
+     let hide=["/"]
+    let view=hide.includes(location.pathname)
     return(
         <>
-        <Header/>
+       {!view && <Header/>}
         <AppRouter/>
-        <Footer/>
+       {!view && <Footer/>}
         </>
     )
 }
