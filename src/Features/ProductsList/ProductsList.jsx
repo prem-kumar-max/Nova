@@ -1,11 +1,14 @@
 import axios from "axios"
-import { useEffect, useState } from "react"
+import { use, useEffect, useState } from "react"
 
 export const ProductList = () => {
     let [products, setProducts] = useState([])
     let [categoryList, setCategoryList] = useState([])
     let [category, setCategory] = useState("")
     let [search, setSearch] = useState("")
+    let [page,setPage]= useState(1)
+    let [btns,setBtns]= useState(0)
+    const perPage=10
 
     useEffect(() => {
         async function categoryData() {
@@ -51,11 +54,19 @@ export const ProductList = () => {
                 api = `https://dummyjson.com/products`
             }
             let { data } = await axios.get(api)
-            setProducts(data.products)
+
+            let allProducts= data.products || []
+            setBtns(allProducts.length)
+
+            let pagination = allProducts.slice((page-1)*perPage,page*perPage)
+            setProducts(pagination)
         }
         threeApi()
 
-    }, [category, search])
+    }, [category, search,page])
+
+let  viewButtons=Math.ceil(btns/perPage)
+
     return (
         <>
             <center><h1 className="mb-3 mt-3">Products Data</h1></center>
@@ -67,6 +78,7 @@ export const ProductList = () => {
                                 (e) => {
                                     setSearch(e.target.value)
                                     setCategory("")
+                                    setPage(1)
                                 }
                             }
                         />
@@ -77,6 +89,7 @@ export const ProductList = () => {
                                 (e) => {
                                     setCategory(e.target.value)
                                     setSearch("")
+                                    setPage(1)
                                 }
                             }
                         >
@@ -103,6 +116,14 @@ export const ProductList = () => {
                         </div>
                     ))
                 }
+            </div>
+            <div className="text-center">
+                {
+                    viewButtons>0 && Array.from({length:viewButtons},(_,i)=>i+1).map((btn)=>(
+                        <button className="btn btn-primary m-2" onClick={()=>setPage(btn)}>{btn}</button>
+                    ))
+                }
+
             </div>
         </>
     )
